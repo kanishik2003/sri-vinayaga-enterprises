@@ -4,18 +4,15 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-  "dev": "concurrently \"vite\" \"npm run dev --prefix backend\"",
-  "build": "npm install --legacy-peer-deps && vite build",
-  "lint": "eslint .",
-  "preview": "vite preview"
-},
+    "dev": "concurrently \"vite\" \"npm run dev --prefix backend\"",
+    "build": "npm install --legacy-peer-deps && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
     "@google/genai": "^1.46.0",
     "@google/generative-ai": "^0.24.1",
-    "@react-three/drei": "^10.7.7",
-    "@react-three/fiber": "^9.5.0",
-    "@react-three/postprocessing": "^3.0.4",
     "@splinetool/react-spline": "^4.1.0",
     "@splinetool/runtime": "^1.12.58",
     "@studio-freight/react-lenis": "^0.0.47",
