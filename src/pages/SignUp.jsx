@@ -137,7 +137,7 @@ const SignUp = () => {
 
         setIsSendingOtp(true);
         try {
-            const res = await fetch('http://localhost:3001/api/send-otp', {
+            const res = await fetch('https://sri-vinayaga-enterprises.onrender.com/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email })
@@ -186,7 +186,7 @@ const SignUp = () => {
         setIsSubmitting(true);
         try {
             // Verify OTP via Backend
-            const res = await fetch('http://localhost:3001/api/verify-otp', {
+            const res = await fetch('https://sri-vinayaga-enterprises.onrender.com/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, otp })

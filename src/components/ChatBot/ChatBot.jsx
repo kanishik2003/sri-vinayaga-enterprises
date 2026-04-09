@@ -9,7 +9,7 @@ import {
 } from 'firebase/firestore';
 import { buildSystemPrompt, searchProducts } from './knowledgeBase';
 
-const BACKEND_URL = 'http://localhost:3001';
+const BACKEND_URL = 'https://sri-vinayaga-enterprises.onrender.com/';
 
 const ChatBot = ({ isOpen, onClose, currentUser }) => {
     const [messages, setMessages] = useState([]);
