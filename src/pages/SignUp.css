@@ -1,0 +1,339 @@
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.signup-container {
+    display: flex;
+    min-height: 480px;
+    width: 95%;
+    max-width: 800px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.45);
+    margin: auto;
+    position: relative;
+    z-index: 10;
+}
+
+/* Deep Space Nebula Background */
+.deep-space-bg {
+    background: radial-gradient(circle at 20% 30%, #0c1428 0%, #000814 100%);
+    position: relative;
+}
+
+.deep-space-bg::before,
+.deep-space-bg::after {
+    content: "";
+    position: absolute;
+    width: 800px;
+    height: 800px;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.4;
+    z-index: 1;
+    animation: nebulaMove 30s infinite alternate;
+}
+
+.deep-space-bg::before {
+    background: rgba(30, 64, 175, 0.3);
+    /* Navy Blue Nebula */
+    top: -10%;
+    left: -10%;
+}
+
+.deep-space-bg::after {
+    background: rgba(59, 130, 246, 0.15);
+    /* Soft Azure Nebula */
+    bottom: -15%;
+    right: -10%;
+    animation-delay: -10s;
+}
+
+@keyframes nebulaMove {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    100% {
+        transform: translate(100px, 50px) scale(1.1);
+    }
+}
+
+.signup-left {
+    flex: 0.9;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.6) 0%, rgba(30, 41, 59, 0.4) 100%),
+        url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.signup-left::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom right, rgba(59, 130, 246, 0.4), transparent 60%);
+    z-index: 1;
+    mix-blend-mode: soft-light;
+}
+
+.signup-left::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.2) 0%, transparent 70%);
+    z-index: 1;
+}
+
+@keyframes fluid-marble {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.signup-left h2 {
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    z-index: 2;
+    letter-spacing: -1.5px;
+    text-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.signup-left p {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+    z-index: 2;
+}
+
+.signup-right {
+    flex: 1;
+    background: white;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.signup-right h1 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #000000;
+    margin-bottom: 25px;
+}
+
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.input-row {
+    display: flex;
+    gap: 12px;
+}
+
+.signup-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #000000;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.signup-input:focus {
+    border-color: #3b82f6;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #475569;
+    margin: 8px 0;
+}
+
+.checkbox-container input {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    border: 1.5px solid #cbd5e1;
+    cursor: pointer;
+}
+
+.join-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(to right, #000000, #1e293b);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    margin-top: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.join-btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.3);
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+    color: #94a3b8;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.divider:not(:empty)::before {
+    margin-right: .5em;
+}
+
+.divider:not(:empty)::after {
+    margin-left: .5em;
+}
+
+.social-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.social-btn {
+    width: 100%;
+    padding: 12px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.social-btn:hover {
+    background: #f8fafc;
+    border-color: #3b82f6;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 968px) {
+    .signup-container {
+        flex-direction: column;
+        max-height: none;
+        margin: 20px;
+    }
+
+    .signup-left {
+        padding: 40px;
+        min-height: 300px;
+    }
+
+    .signup-right {
+        padding: 40px;
+    }
+}
+
+@keyframes floatParticle {
+    0% {
+        transform: translateY(0) rotate(0);
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 0.5;
+    }
+
+    80% {
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.animate-shake {
+    animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+}
+
+@keyframes shake {
+
+    10%,
+    90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+
+    20%,
+    80% {
+        transform: translate3d(2px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+
+    40%,
+    60% {
+        transform: translate3d(4px, 0, 0);
+    }
+}

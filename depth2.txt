@@ -1,0 +1,205 @@
+[1] 497: <div className="lg:col-span-1 space-y-4">
+[2] 498: <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm">
+[2] 499: <h3 className="text-xl font-black italic uppercase tracking-tight mb-6 flex items-center gap-3">
+[2] 500: <Wallet size={20} className="text-blue-500" /> Salary Orders
+[2] 501: </h3>
+[2] 502: <button
+[2] 503: onClick={() => setShowOrderModal(true)}
+[2] 504: className="w-full mb-6 py-4 bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-blue-600 transition-all shadow-xl italic flex items-center justify-center gap-2"
+[2] 505: >
+[2] 506: <Plus size={14} /> Create Order
+[2] 507: </button>
+[3] 508: <div className="space-y-3">
+[3] 509: {salaryOrders.map(order => (
+[4] 510: <div
+[4] 511: key={order.id}
+[4] 512: onClick={() => { setSelectedSalaryOrder(order); setSelectedStaffForOrder(null); }}
+[4] 513: className={`p-5 rounded-[1.5rem] border transition-all cursor-pointer ${selectedSalaryOrder?.id === order.id ? 'bg-slate-900 border-slate-900 shadow-lg' : 'bg-slate-50 border-slate-100 hover:border-blue-200'}`}
+[4] 514: >
+[4] 515: <div className={`text-[12px] font-black uppercase tracking-tight ${selectedSalaryOrder?.id === order.id ? 'text-white italic' : 'text-slate-900'}`}>{order.name}</div>
+[4] 516: <div className={`text-[8px] font-bold uppercase tracking-widest mt-1 ${selectedSalaryOrder?.id === order.id ? 'text-blue-400' : 'text-slate-400'}`}>{order.startDate} - {order.endDate}</div>
+[4] 517: {order.status === 'Finished' && <span className="inline-block mt-3 px-3 py-1 bg-slate-100/20 text-blue-300 text-[8px] font-black uppercase tracking-widest rounded-lg">Sealed</span>}
+[3] 518: </div>
+[3] 519: ))}
+[3] 520: {salaryOrders.length === 0 && (
+[3] 521: <div className="text-[10px] text-center font-bold text-slate-300 uppercase tracking-widest italic py-4">No Orders Created</div>
+[3] 522: )}
+[2] 523: </div>
+[1] 524: </div>
+[0] 525: </div>
+[0] 526: 
+[0] 527: {/* STAFF IN ORDER COLUMN */}
+[1] 528: <div className="lg:col-span-3 space-y-6">
+[1] 529: {selectedSalaryOrder ? (
+[2] 530: <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm min-h-[500px]">
+[3] 531: <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 pb-8 border-b border-slate-100">
+[4] 532: <div className="flex items-center gap-4">
+[4] 533: <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-500 flex items-center justify-center"><Wallet size={24} /></div>
+[5] 534: <div>
+[5] 535: <h4 className="text-2xl font-black uppercase italic tracking-tight text-slate-900">{selectedSalaryOrder.name}</h4>
+[5] 536: <p className="text-[9px] font-black text-blue-500 uppercase tracking-[0.3em] mt-1">{selectedSalaryOrder.startDate} to {selectedSalaryOrder.endDate}</p>
+[4] 537: </div>
+[3] 538: </div>
+[3] 539: {selectedSalaryOrder.status !== 'Finished' && (
+[3] 540: <button
+[3] 541: onClick={async () => {
+[3] 542: if (window.confirm("Seal this order? No more changes allowed.")) {
+[3] 543: await updateDoc(doc(db, "salary_orders", selectedSalaryOrder.id), { status: 'Finished' });
+[3] 544: }
+[3] 545: }}
+[3] 546: className="px-6 py-3 bg-red-50 text-red-500 text-[9px] font-black uppercase tracking-widest rounded-xl hover:bg-red-500 hover:text-white transition-all italic shadow-sm"
+[3] 547: >End Order</button>
+[3] 548: )}
+[2] 549: </div>
+[2] 550: 
+[2] 551: {/* IF A STAFF IS SELECTED */}
+[2] 552: {selectedStaffForOrder ? (
+[3] 553: <div className="animate-in fade-in zoom-in-95 duration-300">
+[4] 554: <div className="flex items-center gap-4 mb-8">
+[4] 555: <button onClick={() => setSelectedStaffForOrder(null)} className="p-3 bg-slate-50 text-slate-400 hover:text-slate-900 rounded-xl transition-all"><ChevronLeft size={20} /></button>
+[5] 556: <div className="flex items-center gap-4">
+[6] 557: <div className="w-12 h-12 rounded-xl overflow-hidden bg-white shadow-sm border border-slate-100">
+[6] 558: <img src={selectedStaffForOrder.imageUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=${selectedStaffForOrder.id}`} className="w-full h-full object-cover" />
+[5] 559: </div>
+[6] 560: <div>
+[6] 561: <h5 className="text-lg font-black italic uppercase text-slate-900">{selectedStaffForOrder.name}</h5>
+[6] 562: <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{selectedStaffForOrder.role}</p>
+[5] 563: </div>
+[4] 564: </div>
+[3] 565: </div>
+[3] 566: 
+[4] 567: <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+[4] 568: {/* Left side: Advanced & Salary forms */}
+[4] 569: {selectedSalaryOrder.status !== 'Finished' ? (
+[5] 570: <div className="space-y-6">
+[6] 571: <div className="flex gap-2 p-1 bg-slate-50 rounded-2xl w-full">
+[6] 572: <button onClick={() => setDisbursementFormData({ ...disbursementFormData, type: 'Advance Payment' })} className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${disbursementFormData.type === 'Advance Payment' ? 'bg-white text-emerald-600 shadow-sm' : 'text-slate-400 opacity-60'}`}>Advance</button>
+[6] 573: <button onClick={() => setDisbursementFormData({ ...disbursementFormData, type: 'Salary Payment' })} className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${disbursementFormData.type === 'Salary Payment' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-400 opacity-60'}`}>Salary</button>
+[5] 574: </div>
+[5] 575: 
+[6] 576: <div className="space-y-4 bg-slate-50 p-6 rounded-3xl border border-slate-100">
+[7] 577: <div className="space-y-1">
+[7] 578: <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-2">Date</label>
+[7] 579: <input type="date" value={disbursementFormData.date} onChange={e => setDisbursementFormData({ ...disbursementFormData, date: e.target.value })} className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl outline-none text-xs font-bold text-slate-800" />
+[6] 580: </div>
+[7] 581: <div className="space-y-1">
+[7] 582: <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-2">Reason</label>
+[7] 583: <input type="text" placeholder="e.g. For festival, monthly salary" value={disbursementFormData.label} onChange={e => setDisbursementFormData({ ...disbursementFormData, label: e.target.value })} className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl outline-none text-xs font-bold text-slate-800 italic" />
+[6] 584: </div>
+[7] 585: <div className="space-y-1">
+[7] 586: <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-2">Amount</label>
+[7] 587: <input type="number" placeholder="₹0" value={disbursementFormData.amount} onChange={e => setDisbursementFormData({ ...disbursementFormData, amount: e.target.value })} className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl outline-none text-sm font-black text-slate-800" />
+[6] 588: </div>
+[6] 589: <button
+[6] 590: onClick={async () => {
+[6] 591: if (!disbursementFormData.amount) return;
+[6] 592: await addDoc(collection(db, "salary_logs"), {
+[6] 593: orderId: selectedSalaryOrder.id,
+[6] 594: userId: selectedStaffForOrder.id,
+[6] 595: userName: selectedStaffForOrder.name,
+[6] 596: label: disbursementFormData.label,
+[6] 597: type: disbursementFormData.type,
+[6] 598: amount: Number(disbursementFormData.amount),
+[6] 599: date: disbursementFormData.date,
+[6] 600: paymentType: disbursementFormData.paymentType,
+[6] 601: timestamp: serverTimestamp()
+[6] 602: });
+[6] 603: setDisbursementFormData({ label: '', amount: '', type: disbursementFormData.type, date: new Date().toISOString().split('T')[0], paymentType: 'Manual' });
+[6] 604: }}
+[6] 605: className="w-full py-4 bg-slate-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest transition-all hover:bg-emerald-600 shadow-md italic mt-2"
+[6] 606: >Add {disbursementFormData.type.split(' ')[0]}</button>
+[5] 607: </div>
+[4] 608: </div>
+[4] 609: ) : (
+[5] 610: <div className="bg-slate-50 p-10 rounded-3xl border border-slate-100 flex flex-col items-center text-center justify-center h-full">
+[5] 611: <div className="text-[10px] text-slate-400 font-black uppercase tracking-widest italic mb-2">Order Completed</div>
+[5] 612: <h3 className="text-xl font-black text-slate-900 uppercase">Cannot Modify</h3>
+[4] 613: </div>
+[4] 614: )}
+[4] 615: 
+[4] 616: {/* Right side: Log listings */}
+[5] 617: <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2">
+[5] 618: {['Advance Payment', 'Salary Payment'].map(typeLog => {
+[5] 619: const specificLogs = salaryLogs.filter(l => l.userId === selectedStaffForOrder.id && l.type === typeLog);
+[5] 620: return (
+[6] 621: <div key={typeLog} className="bg-white border text-center border-slate-100 rounded-3xl shadow-sm p-5">
+[6] 622: <h5 className={`text-[10px] font-black uppercase tracking-[0.2em] mb-4 text-left ${typeLog === 'Advance Payment' ? 'text-emerald-500' : 'text-blue-500'}`}>{typeLog} Log</h5>
+[6] 623: {specificLogs.length === 0 ? (
+[6] 624: <div className="text-[10px] font-bold text-slate-300 uppercase italic">No entries yet</div>
+[6] 625: ) : (
+[7] 626: <div className="space-y-3">
+[7] 627: {specificLogs.map(log => (
+[8] 628: <div key={log.id} className="flex items-center justify-between text-left p-3 bg-slate-50 rounded-xl hover:bg-slate-100 transition-colors group">
+[9] 629: <div>
+[9] 630: <div className="text-[10px] font-black text-slate-800 italic uppercase">{log.label || typeLog}</div>
+[9] 631: <div className="text-[8px] font-black text-slate-400 uppercase tracking-widest">{log.date}</div>
+[8] 632: </div>
+[8] 633: <div className="text-sm font-black text-slate-900 italic">₹{log.amount}</div>
+[8] 634: {selectedSalaryOrder.status !== 'Finished' && (
+[8] 635: <button onClick={() => deleteDoc(doc(db, "salary_logs", log.id))} className="text-red-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity ml-2">
+[8] 636: <Trash2 size={12} />
+[8] 637: </button>
+[8] 638: )}
+[7] 639: </div>
+[7] 640: ))}
+[6] 641: </div>
+[6] 642: )}
+[6] 643: {specificLogs.length > 0 && (
+[7] 644: <div className="flex items-center justify-between mt-4 border-t border-slate-100 pt-3">
+[7] 645: <div className="text-[9px] font-black uppercase tracking-widest text-slate-400">Total</div>
+[7] 646: <div className={`text-md font-black italic ${typeLog === 'Advance Payment' ? 'text-emerald-600' : 'text-blue-600'}`}>₹{specificLogs.reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0)}</div>
+[6] 647: </div>
+[6] 648: )}
+[5] 649: </div>
+[5] 650: );
+[5] 651: })}
+[4] 652: </div>
+[3] 653: </div>
+[2] 654: </div>
+[2] 655: ) : (
+[2] 656: /* SHOW ALL STAFF GRID IN THIS ORDER */
+[3] 657: <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+[3] 658: {staff.map(s => {
+[3] 659: // Calculate total logs
+[3] 660: const totalAdvance = salaryLogs.filter(l => l.userId === s.id && l.type === 'Advance Payment').reduce((c, l) => c + Number(l.amount), 0);
+[3] 661: const totalSalary = salaryLogs.filter(l => l.userId === s.id && l.type === 'Salary Payment').reduce((c, l) => c + Number(l.amount), 0);
+[3] 662: return (
+[4] 663: <div
+[4] 664: key={s.id}
+[4] 665: onClick={() => setSelectedStaffForOrder(s)}
+[4] 666: className="p-5 border border-slate-100 rounded-3xl bg-slate-50 hover:bg-white hover:shadow-xl hover:-translate-y-1 transition-all cursor-pointer group flex flex-col items-center text-center"
+[4] 667: >
+[5] 668: <div className="w-16 h-16 rounded-2xl overflow-hidden bg-white shadow-sm border border-slate-100 mb-4 group-hover:scale-110 transition-transform">
+[5] 669: <img src={s.imageUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=${s.id}`} className="w-full h-full object-cover" />
+[4] 670: </div>
+[4] 671: <h5 className="font-black text-slate-900 uppercase italic tracking-tight mb-1 group-hover:text-blue-600 transition-colors">{s.name}</h5>
+[4] 672: <p className="text-[8px] font-bold text-slate-400 uppercase tracking-widest mb-4 px-3 py-1 bg-white rounded-full">{s.role}</p>
+[4] 673: 
+[5] 674: <div className="w-full flex justify-between px-2 pt-3 border-t border-slate-200 gap-2">
+[6] 675: <div>
+[6] 676: <div className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Advance</div>
+[6] 677: <div className="text-xs font-black text-emerald-500 italic">₹{totalAdvance}</div>
+[5] 678: </div>
+[6] 679: <div>
+[6] 680: <div className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Salary</div>
+[6] 681: <div className="text-xs font-black text-blue-500 italic">₹{totalSalary}</div>
+[5] 682: </div>
+[4] 683: </div>
+[3] 684: </div>
+[3] 685: );
+[3] 686: })}
+[2] 687: </div>
+[2] 688: )}
+[1] 689: </motion.div>
+[1] 690: ) : (
+[2] 691: <div className="h-full min-h-[500px] border-2 border-dashed border-slate-200 rounded-[3rem] flex flex-col items-center justify-center text-center p-12 bg-white/50">
+[3] 692: <div className="w-20 h-20 bg-white rounded-3xl shadow-sm flex items-center justify-center text-slate-200 mb-6">
+[3] 693: <Wallet size={40} />
+[2] 694: </div>
+[2] 695: <h4 className="text-lg font-black text-slate-400 uppercase tracking-[0.3em] italic mb-3">Order Selection Required</h4>
+[2] 696: <p className="text-[10px] text-slate-300 font-bold uppercase tracking-widest leading-relaxed">Select a salary order from the left partition<br />to initialize or track agent disbursements.</p>
+[1] 697: </div>
+[1] 698: )}
+[0] 699: </div>
+[-1] 700: </div>
+[-1] 701: ) : (

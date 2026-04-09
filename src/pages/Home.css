@@ -1,0 +1,195 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+
+/* 3D Flip Card */
+.flip-card {
+    background-color: transparent;
+    perspective: 1000px;
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.flip-card-back {
+    transform: rotateY(180deg);
+}
+
+.star-field-v3 {
+    position: absolute;
+    inset: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, #1e293b 0%, #05080e 100%);
+    overflow: hidden;
+}
+
+.star-layer {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.star-layer-back { animation: starRotate 400s linear infinite; }
+.star-layer-mid { animation: starRotate 300s linear infinite; }
+.star-layer-front { animation: starRotate 200s linear infinite; }
+
+@keyframes starRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.star-v3 {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    opacity: 0;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+    animation: starShimmer var(--shimmer-dur) ease-in-out infinite;
+    animation-delay: var(--shimmer-delay);
+}
+
+@keyframes starShimmer {
+    0%, 100% { opacity: 0.1; transform: scale(0.6); }
+    50% { opacity: 0.9; transform: scale(1.1); box-shadow: 0 0 12px rgba(255, 255, 255, 0.7); }
+}
+
+.star-v3.glow {
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
+}
+
+/* Watermark Section Header */
+.section-title-wrapper {
+    position: relative;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+}
+
+.bg-watermark {
+    font-size: 5rem;
+    font-weight: 900;
+    color: rgba(59, 130, 246, 0.25);
+    /* <<< CHANGE OPACITY HERE (0.05 = 5%) */
+    text-transform: uppercase;
+    line-height: 0.8;
+    letter-spacing: 0.05em;
+    user-select: none;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.fg-title {
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: #ffffff;
+    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    white-space: nowrap;
+}
+
+
+.welcome-cursive {
+    font-family: 'Dancing Script', cursive;
+    font-size: 3.5rem;
+    color: #fff;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+    letter-spacing: 0.02em;
+}
+
+.user-name-gradient {
+    background: linear-gradient(to right, #3b82f6, #22d3ee);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-size: 4.5rem;
+    font-weight: 800;
+}
+
+.delighted-text {
+    font-size: 1.4rem;
+    color: #e2e8f0;
+    font-weight: 400;
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.05em;
+}
+
+.company-title-main {
+    font-size: 5.5rem;
+    font-weight: 900;
+    line-height: 1.1;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+}
+
+.company-title-main.user-name-gradient {
+    color: transparent;
+}
+
+.trusted-subtitle {
+    font-size: 1.2rem;
+    color: #94a3b8;
+    margin-top: 2rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+}
+
+@media (max-width: 768px) {
+    .bg-watermark {
+        font-size: 4rem;
+    }
+
+    .fg-title {
+        font-size: 1.8rem;
+        bottom: -8px;
+    }
+
+    .welcome-cursive {
+        font-size: 2rem;
+    }
+
+    .user-name-gradient {
+        font-size: 2.8rem;
+    }
+
+    .company-title-main {
+        font-size: 2.8rem;
+    }
+
+    .delighted-text {
+        font-size: 1.1rem;
+    }
+
+    .trusted-subtitle {
+        font-size: 0.9rem;
+    }
+}

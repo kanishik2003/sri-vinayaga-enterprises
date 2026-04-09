@@ -1,0 +1,100 @@
+[0] 398: {view === 'attendance' ? (
+[0] 399: /* Attendance Registry */
+[1] 400: <div className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden">
+[2] 401: <div className="p-8 border-b border-slate-100 bg-slate-50/50 flex flex-col md:flex-row md:items-center justify-between gap-6">
+[3] 402: <div>
+[3] 403: <h3 className="text-2xl font-black italic uppercase tracking-tight flex items-center gap-3">
+[3] 404: <CalendarIcon size={24} className="text-blue-500" /> Daily Protocol Ledger
+[3] 405: </h3>
+[3] 406: <p className="text-sm text-slate-400 font-medium tracking-wide italic uppercase mt-1">Real-time status monitoring system</p>
+[2] 407: </div>
+[2] 408: 
+[3] 409: <div className="flex flex-wrap items-center gap-4">
+[4] 410: <div className="relative">
+[4] 411: <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+[4] 412: <input
+[4] 413: type="text"
+[4] 414: placeholder="Search identity..."
+[4] 415: value={searchTerm}
+[4] 416: onChange={(e) => setSearchTerm(e.target.value)}
+[4] 417: className="pl-12 pr-6 py-3 bg-white border border-slate-200 rounded-[1.25rem] outline-none focus:ring-4 focus:ring-blue-500/10 transition-all font-bold text-xs w-full md:w-64"
+[4] 418: />
+[3] 419: </div>
+[3] 420: <button
+[3] 421: onClick={exportAttendanceToCSV}
+[3] 422: className="px-6 py-3 bg-emerald-50 text-emerald-600 border border-emerald-100 rounded-[1.25rem] text-[10px] font-black uppercase tracking-widest hover:bg-emerald-600 hover:text-white transition-all shadow-sm italic flex items-center gap-2"
+[3] 423: >
+[3] 424: <Plus size={14} className="rotate-45" /> Export Registry
+[3] 425: </button>
+[2] 426: </div>
+[1] 427: </div>
+[1] 428: 
+[2] 429: <div className="overflow-x-auto">
+[2] 430: <table className="w-full text-left">
+[2] 431: <thead>
+[2] 432: <tr className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 border-b border-slate-100">
+[2] 433: <th className="px-10 py-6">Identity Profile</th>
+[2] 434: <th className="px-10 py-6">Assigned Role</th>
+[2] 435: <th className="px-10 py-6">Current Status</th>
+[2] 436: <th className="px-10 py-6 text-right">Vault Actions</th>
+[2] 437: </tr>
+[2] 438: </thead>
+[2] 439: <tbody className="divide-y divide-slate-50">
+[2] 440: {filteredStaff.length === 0 ? (
+[2] 441: <tr>
+[2] 442: <td colSpan="4" className="text-center py-20 font-bold tracking-widest text-slate-300 uppercase italic">No entities found for tracking</td>
+[2] 443: </tr>
+[2] 444: ) : (
+[2] 445: filteredStaff.map((s) => {
+[2] 446: const status = getStatusForStaff(s.id);
+[2] 447: const log = logs.find(l => l.userId === s.id);
+[2] 448: return (
+[2] 449: <tr key={s.id} className="hover:bg-slate-50/80 transition-all group">
+[2] 450: <td className="px-10 py-8">
+[3] 451: <div className="flex items-center gap-4 cursor-pointer" onClick={() => setSelectedStaffForCalendar(s)}>
+[4] 452: <div className="w-14 h-14 rounded-2xl border-2 border-white shadow-sm overflow-hidden transform group-hover:scale-110 transition-transform bg-slate-100">
+[4] 453: <img src={s.imageUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=${s.id}`} alt="" className="w-full h-full object-cover" />
+[3] 454: </div>
+[4] 455: <div>
+[4] 456: <div className="font-extrabold text-slate-900 uppercase italic tracking-tight group-hover:text-blue-500 transition-colors">{s.name || 'ANONYMOUS AGENT'}</div>
+[4] 457: <div className="text-[9px] text-slate-400 font-black uppercase tracking-widest">{s.phone}</div>
+[3] 458: </div>
+[2] 459: </div>
+[2] 460: </td>
+[2] 461: <td className="px-10 py-8">
+[3] 462: <div className="text-[10px] font-black uppercase text-blue-500 tracking-wider flex items-center gap-2">
+[3] 463: <Briefcase size={12} /> {s.role}
+[2] 464: </div>
+[2] 465: </td>
+[2] 466: <td className="px-10 py-8">
+[2] 467: {status ? (
+[3] 468: <div className="space-y-1">
+[3] 469: <span className={`px-4 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest flex items-center gap-2 w-fit ${status === 'Present' ? 'bg-emerald-50 text-emerald-600' :
+[3] 470: status === 'Absent' ? 'bg-red-50 text-red-600' : 'bg-orange-50 text-orange-600'
+[3] 471: }`}>
+[3] 472: {status === 'Present' ? <CheckCircle2 size={12} /> : status === 'Absent' ? <XCircle size={12} /> : <Clock size={12} />}
+[3] 473: {status}
+[3] 474: </span>
+[3] 475: {log && log.timestamp && <div className="text-[8px] text-slate-400 font-bold uppercase ml-1 italic">{log.timestamp.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>}
+[2] 476: </div>
+[2] 477: ) : (
+[2] 478: <span className="text-[10px] text-slate-300 font-bold uppercase italic tracking-widest">Protocol Pending</span>
+[2] 479: )}
+[2] 480: </td>
+[2] 481: <td className="px-10 py-8 text-right">
+[2] 482: <button onClick={() => setSelectedStaffForCalendar(s)} className="px-4 py-2 bg-slate-900 text-white text-[9px] font-black uppercase tracking-widest rounded-xl hover:bg-blue-600 transition-all shadow-sm italic">
+[2] 483: View Archive
+[2] 484: </button>
+[2] 485: </td>
+[2] 486: </tr>
+[2] 487: );
+[2] 488: })
+[2] 489: )}
+[2] 490: </tbody>
+[2] 491: </table>
+[1] 492: </div>
+[1] 493: ) : view === 'salary' ? (
+[1] 494: /* Salary Ledger View (Order Centric) */
+[2] 495: <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 pb-20">
+[2] 496: {/* ORDER LIST COLUMN */}
+[3] 497: <div className="lg:col-span-1 space-y-4">
