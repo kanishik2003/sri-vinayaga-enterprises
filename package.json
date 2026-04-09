@@ -4,11 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"vite\" \"npm run dev --prefix backend\"",
-    "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
-  },
+  "dev": "concurrently \"vite\" \"npm run dev --prefix backend\"",
+  "build": "npm install --legacy-peer-deps && vite build",
+  "lint": "eslint .",
+  "preview": "vite preview"
+},
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
     "@google/genai": "^1.46.0",
